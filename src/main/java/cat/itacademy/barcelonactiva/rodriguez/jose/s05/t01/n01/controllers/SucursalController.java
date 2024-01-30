@@ -1,7 +1,5 @@
 package cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.controllers;
 
-
-
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.dto.SucursalDto;
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.entity.Sucursal;
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.services.SucursalServices;
@@ -9,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/view/sucursales")
 @RequiredArgsConstructor
 public class SucursalController {
 
@@ -22,25 +21,21 @@ public class SucursalController {
 
 
     @GetMapping(path = "/sucursal/getAll")
-    public ResponseEntity<List<SucursalDto>> getAllSucursals() {
-        return ResponseEntity.ok().body(sucursalServices.getAllSucursals());
+    public String getAllSucursals(Model model) {
+        List<SucursalDto> sucursalList = sucursalServices.getAllSucursals();
+        model.addAttribute("title", "Listado de Sucursales");
+        model.addAttribute("sucursals", sucursalList);
+        return "views/sucursal/list";
     }
 
 
     @GetMapping(path = "/sucursal/getOne/{id}")
-    public ResponseEntity<Sucursal> getSucursalById(@PathVariable Long id) {
+    public ResponseEntity<SucursalDto> getSucursalById(@PathVariable Long id) {
         return ResponseEntity.ok().body(sucursalServices.getSucursalById(id));
     }
 
-
-    @GetMapping(path = "/sucursal/getOne/{name}")
-    public ResponseEntity<List<SucursalDto>> getSucursalsByNameContaining(@PathVariable String name) {
-        return ResponseEntity.ok().body(sucursalServices.getSucursalContaining(name));
-    }
-
-
     @PostMapping(path = "/sucursal/add",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SucursalDto> saveSucursal(@RequestBody SucursalDto sucursal){
+    public ResponseEntity<SucursalDto> createSucursal(@RequestBody SucursalDto sucursal){
         SucursalDto savedSucursal = sucursalServices.createSucursal(sucursal);
         return new ResponseEntity<>(savedSucursal, HttpStatus.CREATED);
     }
@@ -49,12 +44,13 @@ public class SucursalController {
     @PutMapping(path = "/sucursal/update{id}")
     public ResponseEntity<SucursalDto> updateSucursal(@PathVariable(value = "id") Long id,
                                              @RequestBody SucursalDto sucursalDto) {
-        return ResponseEntity.ok().body(sucursalServices.updateSucursal(id,sucursalDto));
+        SucursalDto updatedSucursal = sucursalServices.updateSucursal(sucursalDto);
+        return new ResponseEntity<>(updatedSucursal, HttpStatus.OK);
     }
 
 
     @DeleteMapping(value = "/sucursal/delete/{id}")
-    public ResponseEntity<String> deleteFruit(@PathVariable Long id) {
+    public ResponseEntity<String> deleteSucursal(@PathVariable Long id) {
         sucursalServices.deleteSucursalById(id);
         return new ResponseEntity<>(("Sucursal deleted successfully- Sucursal ID:" + id), HttpStatus.OK);
     }

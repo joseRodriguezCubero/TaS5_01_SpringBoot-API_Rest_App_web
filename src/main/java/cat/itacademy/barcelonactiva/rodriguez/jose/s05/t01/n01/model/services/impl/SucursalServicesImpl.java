@@ -7,70 +7,68 @@ import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.exceptions.
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.exceptions.SucursalNotFoundException;
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.repository.SucursalRepository;
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.services.SucursalServices;
+import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.services.SucursalMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Service
-public class SucursalServicesImpl implements SucursalServices {
 
-    private final SucursalRepository sucursalRepository;
+    @Service
+    @AllArgsConstructor
+    public class SucursalServicesImpl implements SucursalServices {
 
-    public SucursalServicesImpl(SucursalRepository sucursalRepository) {
-        this.sucursalRepository = sucursalRepository;
-    }
+        private SucursalRepository sucursalRepository;
 
-    @Override
-    public List<Sucursal> getAllSucursals() {
-        return sucursalRepository.findAllByOrderById();
-    }
+        @Override
+        public SucursalDto createSucursal(SucursalDto sucursalDto) {
 
-    @Override
-    public Sucursal getSucursalById(Long id) {
-        return sucursalRepository.findById(id).orElseThrow(() -> new SucursalNotFoundException("Sucursal Not Found with ID: " + id));
-    }
+            // Convert UserDto into User JPA Entity
+            Sucursal user = SucursalMapper.mapToSucursal(sucursalDto);
 
-    @Override
-    public List<Sucursal> getSucursalContaining(String name) {
-        return sucursalRepository.findByNameContainingIgnoreCaseOrderById(name);
-    }
+            Sucursal savedUser = sucursalRepository.save(user);
 
-    @Override
-    SucursalDto createSucursal(SucursalDto sucursalDto) {
-        sucursalRepository.findByNameIgnoreCase(sucursalDto.getNomSucursal())
-                .ifPresent(sucursal1 -> {
-                    throw new SucursalAlreadyExistException("Already exist sucursal with given name:" + sucursalDto.getNomSucursal());
-                });
-        // Convert UserDto into User JPA Entity
-        Sucursal sucursal = SucursalMapper.mapToUser(sucursalDto);
+            // Convert User JPA entity to UserDto
+            SucursalDto savedUserDto = SucursalMapper.mapToSucursalDto(savedUser);
 
-        Sucursal savedSucursal = sucursalRepository.save(sucursal);
-
-        // Convert User JPA entity to UserDto
-        SucursalDto savedSucursalDto = SucursalMapper.mapToSucDto(savedSucursal);
-
-        return savedSucursalDto;
-    }
-
-    @Override
-    public Sucursal updateSucursal(Long id, Sucursal sucursal) {
-        if (id == null) {
-            throw new IllegalArgumentException("Sucursal ID cannot be null");
+            return savedUserDto;
         }
-        Sucursal existingSucursal = sucursalRepository.findById(id)
-                .orElseThrow(() -> new SucursalNotFoundException("Fruit Not Found with ID: " + id));
-        existingSucursal.setNomSucursal(sucursal.getNomSucursal());
-        existingSucursal.setPaisSucursal(sucursal.getPaisSucursal());
-        return sucursalRepository.save(existingSucursal);
+
+        @Override
+        public SucursalDto getSucursalById(Long sucursalId) {
+            Optional<Sucursal> optionalSucursal = sucursalRepository.findById(sucursalId);
+            Sucursal sucursal = optionalSucursal.get();
+            return SucursalMapper.mapToSucursalDto(sucursal);
+        }
+
+        @Override
+        public List<SucursalDto> getAllSucursals() {
+            List<Sucursal> users = sucursalRepository.findAll();
+            return users.stream().map(SucursalMapper::mapToSucursalDto)
+                    .collect(Collectors.toList());
+        }
+
+        @Override
+        public SucursalDto updateSucursal(SucursalDto sucursal) {
+            Sucursal existingUser = sucursalRepository.findById(sucursal.getPk_SucursalID()).get();
+            existingUser.setNomSucursal(sucursal.getNomSucursal());
+            existingUser.setPaisSucursal(sucursal.getPaisSucursal());
+            Sucursal updatedUser = sucursalRepository.save(existingUser);
+            return SucursalMapper.mapToSucursalDto(updatedUser);
+        }
+
+
+        @Override
+        public void deleteSucursalById(Long id) {
+            Sucursal existingSucursal = sucursalRepository.findById(id)
+                    .orElseThrow(() -> new SucursalNotFoundException("Fruit Not Found with ID: " + id));
+            sucursalRepository.deleteById(existingSucursal.getPk_SucursalID());
+        }
     }
 
-    @Override
-    public void deleteSucursalById(Long id) {
-        Sucursal existingSucursal = sucursalRepository.findById(id)
-                .orElseThrow(() -> new SucursalNotFoundException("Sucursal Not Found with ID: " + id));
-        sucursalRepository.deleteById(existingSucursal.getPk_SucursalID());
 
-    }
 
     /*@Service
     @AllArgsConstructor
@@ -109,4 +107,4 @@ public class SucursalServicesImpl implements SucursalServices {
             userRepository.deleteById(userId);
         }
     }*/
-}
+

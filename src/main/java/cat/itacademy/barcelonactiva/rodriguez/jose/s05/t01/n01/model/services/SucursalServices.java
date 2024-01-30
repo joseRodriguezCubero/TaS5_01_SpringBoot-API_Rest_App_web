@@ -7,18 +7,23 @@ import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.exceptions.
 import java.util.List;
 
 public interface SucursalServices {
-    List<SucursalDto> getAllSucursals();
 
-    Sucursal getSucursalById(Long id);
 
-    List<SucursalDto> getSucursalContaining(String name);
-
-    Sucursal createSucursal(SucursalDto sucursalDto);
-
-    SucursalDto updateSucursal(Long id, SucursalDto updatedSucursal);
 
     void deleteSucursalById(Long id) throws SucursalNotFoundException;
+    SucursalDto createSucursal(SucursalDto sucursal);
+
+    SucursalDto getSucursalById(Long sucursalId);
+
+    List<SucursalDto> getAllSucursals();
+
+    SucursalDto updateSucursal(SucursalDto sucursal);
+
+
 }
+
+
+
 
 /*UserDto createSucursal(UserDto user);
 
