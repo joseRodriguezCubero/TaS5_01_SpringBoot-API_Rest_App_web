@@ -1,35 +1,42 @@
 package cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.dto;
 
+import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.entity.Country;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 @Setter
 @Getter
 
-public class SucursalDto {
+public class SucursalDto implements Serializable {
 
     private Long pk_SucursalID;
     private String nomSucursal;
-    private String paisSucursal;
+    private Country country;
     private String typeSucursal;
-    private final ArrayList<String> euroCountries;
+    private final ArrayList<String> euroCountries = new ArrayList<>(List.of("Alemania", "Austria", "Bélgica", "Chipre", "Croacia", "Eslovaquia", "Eslovenia", "España", "Estonia", "Finlandia", "Francia", "Grecia", "Irlanda", "Italia", "Letonia", "Lituania", "Luxemburgo", "Malta", "Países Bajos", "Portugal"));
 
-    public SucursalDto(Long pk_SucursalID, String nomSucursal, String paisSucursal) {
+    public SucursalDto(Long pk_SucursalID, String nomSucursal, Country paisSucursal) {
         this.pk_SucursalID = pk_SucursalID;
         this.nomSucursal = nomSucursal;
-        this.paisSucursal = paisSucursal;
+        this.country = paisSucursal;
         this.typeSucursal = createTypeSucursal(paisSucursal);
-        this.euroCountries = new ArrayList<>(Arrays.asList("Austria", "Belgium", "Cyprus", "Estonia", "Finland", "France", "Germany", "Greece", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Portugal", "Slovakia", "Slovenia", "Spain"));
     }
 
-    public String createTypeSucursal(String pais){
+    public SucursalDto() {
+
+    }
+
+    public String createTypeSucursal(Country pais){
         if(pais!=null) {
-            if (this.euroCountries.contains(pais)) {
+            if (this.euroCountries.contains(pais.getCountryName())) {
                 return "EU";
             }
         }

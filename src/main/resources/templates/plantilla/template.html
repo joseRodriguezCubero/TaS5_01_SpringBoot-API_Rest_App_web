@@ -11,8 +11,9 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <strong>MyLogo</strong>
+        <a class="navbar-brand" href="https://github.com/joseRodriguezCubero">
+          <img src="https://avatars.githubusercontent.com/u/132256963?s=96&amp;v=4" alt="@joseRodriguezCubero" size="48"
+               height="48" width="48" data-view-component="true" class="avatar circle mr-3">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +26,7 @@
               <a class="nav-link active" aria-current="page" th:href="@{/index}">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Sucursales</a>
+              <a class="nav-link" th:href="@{views/sucursal/getAll}">Sucursales</a> <!-- TODO revisar esto -->
             </li>
           </ul>
         </div>

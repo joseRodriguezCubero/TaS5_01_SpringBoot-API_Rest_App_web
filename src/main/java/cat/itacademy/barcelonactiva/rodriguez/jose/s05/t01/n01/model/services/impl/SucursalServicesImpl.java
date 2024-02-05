@@ -24,16 +24,12 @@ import java.util.stream.Collectors;
 
         @Override
         public SucursalDto createSucursal(SucursalDto sucursalDto) {
-
             // Convert UserDto into User JPA Entity
-            Sucursal user = SucursalMapper.mapToSucursal(sucursalDto);
-
-            Sucursal savedUser = sucursalRepository.save(user);
-
+            Sucursal sucursal = SucursalMapper.mapToSucursal(sucursalDto);
+            Sucursal savedSucursal = sucursalRepository.save(sucursal);
             // Convert User JPA entity to UserDto
-            SucursalDto savedUserDto = SucursalMapper.mapToSucursalDto(savedUser);
-
-            return savedUserDto;
+            SucursalDto savedSucursalDto = SucursalMapper.mapToSucursalDto(savedSucursal);
+            return savedSucursalDto;
         }
 
         @Override
@@ -54,7 +50,7 @@ import java.util.stream.Collectors;
         public SucursalDto updateSucursal(SucursalDto sucursal) {
             Sucursal existingUser = sucursalRepository.findById(sucursal.getPk_SucursalID()).get();
             existingUser.setNomSucursal(sucursal.getNomSucursal());
-            existingUser.setPaisSucursal(sucursal.getPaisSucursal());
+            existingUser.setCountry(sucursal.getCountry());
             Sucursal updatedUser = sucursalRepository.save(existingUser);
             return SucursalMapper.mapToSucursalDto(updatedUser);
         }

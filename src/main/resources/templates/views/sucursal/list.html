@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns th="http://www.thymeleaf.org" lang="es">
+<head th:replace="plantilla/template :: head"><title>list</title></head>
+<body>
+<header th:replace="plantilla/template :: header"></header>
+<div class="container">
+  <h1 th:text="${title}"></h1>
+</div>
+<div class="container">
+
+  <a class="btn btn-primary btn-sm" th:href="@{/views/sucursal/add}"
+  th:text="'Nueva Sucursal'" title="Crear Nuevo Registro">
+
+  </a>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Nombre Sucursal</th>
+      <th scope="col">Pais</th>
+      <th scope="col">Tipo</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr th:each="sc : ${sucursales}">
+      <td th:text="${sc.pk_SucursalID}"></td>
+      <td th:text="${sc.nomSucursal}"></td>
+      <td th:text="${sc.getCountry().getCountryName()}"></td>
+      <td th:text="${sc.typeSucursal}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<footer th:replace="plantilla/template :: footer"></footer>
+</body>
+</html>
