@@ -36,7 +36,8 @@
       </td>
       <td>
         <a class="btn btn-danger btn-sm" th:href="@{/views/sucursal/delete/{id}(id=${sc.pk_SucursalID})}"
-           th:text="'Eliminar'" title="Eliminar Registro">
+           th:text="'Eliminar'" title="Eliminar Registro"
+           onclick="return confirm('¿Está seguro de eliminar el registro?')">
         </a>
       </td>
     </tr>

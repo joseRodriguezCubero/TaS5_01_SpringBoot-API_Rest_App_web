@@ -2,13 +2,15 @@ package cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.Serial;
 import java.io.Serializable;
 
-@Getter
+
 @Entity
 @Table(name = "sucursales")
 public class Sucursal implements Serializable {
@@ -18,13 +20,34 @@ public class Sucursal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pk_SucursalID;
-
-    @Setter
+    @NotBlank(message = "El campo no puede estar vacío")
     @Column(name = "nom_sucursal")
     private String nomSucursal;
 
+    public Long getPk_SucursalID() {
+        return pk_SucursalID;
+    }
 
-    @Setter
+    public void setPk_SucursalID(Long pk_SucursalID) {
+        this.pk_SucursalID = pk_SucursalID;
+    }
+
+    public String getNomSucursal() {
+        return nomSucursal;
+    }
+
+    public void setNomSucursal(String nomSucursal) {
+        this.nomSucursal = nomSucursal;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     @ManyToOne
     @JoinColumn (name="countries_id")
     private Country country;

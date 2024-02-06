@@ -1,14 +1,14 @@
 package cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.dto;
 
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.entity.Country;
-import lombok.AllArgsConstructor;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -18,6 +18,7 @@ import java.util.List;
 public class SucursalDto implements Serializable {
 
     private Long pk_SucursalID;
+    @NotBlank(message = "El campo no puede estar vacío")
     private String nomSucursal;
     private Country country;
     private String typeSucursal;
@@ -31,15 +32,14 @@ public class SucursalDto implements Serializable {
     }
 
     public SucursalDto() {
-
     }
 
-    public String createTypeSucursal(Country pais){
-        if(pais!=null) {
+    public String createTypeSucursal(Country pais) {
+        if (pais != null) {
             if (this.euroCountries.contains(pais.getCountryName())) {
-                return "EU";
+                return "EURO";
             }
         }
-        return "Not EU";
+        return "NO EURO";
     }
 }

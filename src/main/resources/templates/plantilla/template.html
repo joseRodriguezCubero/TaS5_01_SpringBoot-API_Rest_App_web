@@ -10,11 +10,11 @@
 <header th:fragment="header">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://github.com/joseRodriguezCubero">
-          <img src="https://avatars.githubusercontent.com/u/132256963?s=96&amp;v=4" alt="@joseRodriguezCubero" size="48"
-               height="48" width="48" data-view-component="true" class="avatar circle mr-3">
-        </a>
+
+      <a class="navbar-brand" href="https://github.com/joseRodriguezCubero/TaS5_01_SpringBoot-API_Rest_App_web">
+        <img src="/js/github.svg" alt="GitHub" width="24" height="24">
+        <span>@JoseRodriguezCubero</span>
+      </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -26,12 +26,11 @@
               <a class="nav-link active" aria-current="page" th:href="@{/index}">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:href="@{views/sucursal/getAll}">Sucursales</a> <!-- TODO revisar esto -->
+              <a class="nav-link" th:href="@{/views/sucursal/getAll}">Sucursales</a> <!-- TODO revisar esto -->
             </li>
           </ul>
         </div>
       </div>
-    </div>
   </nav>
 
 </header>

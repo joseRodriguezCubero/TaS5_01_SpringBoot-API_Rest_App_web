@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns th="http://www.thymeleaf.org" lang="es">
 <head th:replace="plantilla/template :: head">
-  <title>frmCreate</title></head>
+  <title>frmCreate</title>
+</head>
 <body>
 <header th:replace="plantilla/template :: header"></header>
 <div class="container">
@@ -12,19 +13,26 @@
 
         <div class="form-group row">
           <input type="hidden" th:field="*{pk_SucursalID}">
-          <label class="col-md-auto" for="nombres">Nombre:</label>
-          <input type="text" th:field="*{nomSucursal}" class="form-control form-control-sm col-md-6" id="nombres"
-                 placeholder="Nombre de sucursal">
+          <label class="col-md-2 col-form-label" for="nombres" >Nombre:</label>
+          <div class="col-md-6">
+            <input type="text" th:field="*{nomSucursal}" class="form-control form-control-sm" id="nombres"
+                   placeholder="Nombre de sucursal">
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('nomSucursal')}"
+                   th:errors="*{nomSucursal}">
+            </small>
+          </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-md-auto" for="pais">Pais:</label>
-          <select th:field="*{country}" class="form-control form-control-sm col-md-6" id="pais">
-            <option th:each="country:${countries}"
-                    th:value="${country.getId()}"
-                    th:text="${country.getCountryName()}"
-            >/>
-          </select>
+          <label class="col-md-2 col-form-label" for="pais">País:</label>
+          <div class="col-md-6">
+            <select th:field="*{country}" class="form-control form-control-sm" id="pais">
+              <option th:each="country:${countries}"
+                      th:value="${country.getId()}"
+                      th:text="${country.getCountryName()}">
+              </option>
+            </select>
+          </div>
         </div>
         <div class="card-footer bg-dark">
           <input type="submit" class="btn btn-primary btn-sm" value="Guardar"/>
