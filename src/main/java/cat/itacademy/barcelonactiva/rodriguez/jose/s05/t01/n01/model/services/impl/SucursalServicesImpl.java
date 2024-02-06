@@ -51,8 +51,8 @@ import java.util.stream.Collectors;
             Sucursal existingUser = sucursalRepository.findById(sucursal.getPk_SucursalID()).get();
             existingUser.setNomSucursal(sucursal.getNomSucursal());
             existingUser.setCountry(sucursal.getCountry());
-            Sucursal updatedUser = sucursalRepository.save(existingUser);
-            return SucursalMapper.mapToSucursalDto(updatedUser);
+            Sucursal updatedSucursal = sucursalRepository.save(existingUser);
+            return SucursalMapper.mapToSucursalDto(updatedSucursal);
         }
 
 

@@ -9,8 +9,7 @@
 <div class="container">
 
   <a class="btn btn-primary btn-sm" th:href="@{/views/sucursal/add}"
-  th:text="'Nueva Sucursal'" title="Crear Nuevo Registro">
-
+     th:text="'Nueva Sucursal'" title="Crear Nuevo Registro">
   </a>
 
   <table class="table">
@@ -20,6 +19,8 @@
       <th scope="col">Nombre Sucursal</th>
       <th scope="col">Pais</th>
       <th scope="col">Tipo</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Eliminar</th>
     </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -28,6 +29,16 @@
       <td th:text="${sc.nomSucursal}"></td>
       <td th:text="${sc.getCountry().getCountryName()}"></td>
       <td th:text="${sc.typeSucursal}"></td>
+      <td>
+        <a class="btn btn-success btn-sm" th:href="@{/views/sucursal/update/{id}(id=${sc.pk_SucursalID})}"
+           th:text="'Editar'" title="Modificar Registro">
+        </a>
+      </td>
+      <td>
+        <a class="btn btn-danger btn-sm" th:href="@{/views/sucursal/delete/{id}(id=${sc.pk_SucursalID})}"
+           th:text="'Eliminar'" title="Eliminar Registro">
+        </a>
+      </td>
     </tr>
     </tbody>
   </table>

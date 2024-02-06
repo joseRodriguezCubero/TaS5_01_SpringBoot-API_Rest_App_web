@@ -20,6 +20,7 @@ public class SucursalMapper {
     // Convert UserDto into User JPA Entity
     public static Sucursal mapToSucursal(SucursalDto sucursalDto){
         Sucursal sucursal = new Sucursal(
+                sucursalDto.getPk_SucursalID(),
                 sucursalDto.getNomSucursal(),
                 sucursalDto.getCountry()
         );

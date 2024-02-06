@@ -37,6 +37,13 @@ public class Sucursal implements Serializable {
     public Sucursal() {
     }
 
+    public Sucursal(Long pkSucursalID, String nomSucursal, Country paisSucursal) {
+        this.pk_SucursalID=pkSucursalID;
+        this.nomSucursal=nomSucursal;
+        this.country=paisSucursal;
+    }
+
+
 
     @Override
     public String toString() {

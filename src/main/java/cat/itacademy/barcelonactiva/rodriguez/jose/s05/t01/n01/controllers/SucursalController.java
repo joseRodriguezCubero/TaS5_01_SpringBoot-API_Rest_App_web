@@ -47,7 +47,7 @@ public class SucursalController {
     public String createSucursal(Model model){
         SucursalDto sucursalDto = new SucursalDto();
         List<Country> countryList = countryServices.countryList();
-        model.addAttribute("title", "Formulario de Sucursales");
+        model.addAttribute("title", "Formulario de Sucursal");
         model.addAttribute("sucursal",sucursalDto);
         model.addAttribute("countries",countryList);
         //sucursalServices.createSucursal(sucursalDto);
@@ -57,21 +57,23 @@ public class SucursalController {
     @PostMapping("/save")
     public String save(@ModelAttribute SucursalDto sucursalDto){
         sucursalServices.createSucursal(sucursalDto);
+        System.out.println("Sucursal saved!");
         return "redirect:/views/sucursal/getAll";
     }
 
-
-    @PutMapping(path = "/update{id}")
-    public ResponseEntity<SucursalDto> updateSucursal(@PathVariable(value = "id") Long id,
-                                                      @RequestBody SucursalDto sucursalDto) {
-        SucursalDto updatedSucursal = sucursalServices.updateSucursal(sucursalDto);
-        return new ResponseEntity<>(updatedSucursal, HttpStatus.OK);
+    @GetMapping(path = "/update/{id}")
+    public String updateSucursal(@PathVariable("id") Long idSucursal, Model model){
+        SucursalDto updatedSucursal = sucursalServices.getSucursalById(idSucursal);
+        List<Country> countryList = countryServices.countryList();
+        model.addAttribute("title", "Actualizar Sucursal");
+        model.addAttribute("sucursal",updatedSucursal);
+        model.addAttribute("countries",countryList);
+        return "views/sucursal/frmCreate";
     }
-
-
-    @DeleteMapping(value = "/sucursal/delete/{id}")
-    public ResponseEntity<String> deleteSucursal(@PathVariable Long id) {
-        sucursalServices.deleteSucursalById(id);
-        return new ResponseEntity<>(("Sucursal deleted successfully- Sucursal ID:" + id), HttpStatus.OK);
+    @GetMapping(path = "/delete/{id}")
+    public String deleteSucursal(@PathVariable("id") Long idSucursal){
+       sucursalServices.deleteSucursalById(idSucursal);
+        System.out.println("Sucursal deleted!");
+        return "redirect:/views/sucursal/getAll";
     }
 }
