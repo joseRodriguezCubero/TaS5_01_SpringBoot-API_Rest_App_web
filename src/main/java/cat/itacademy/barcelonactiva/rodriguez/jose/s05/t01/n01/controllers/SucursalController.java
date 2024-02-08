@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,48 +42,53 @@ public class SucursalController {
 
 
     @GetMapping(path = "/getOne/{id}")
-    public ResponseEntity<SucursalDto> getSucursalById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(sucursalServices.getSucursalById(id));
+    public String getOneSucursal(@PathVariable("id") Long idSucursal, Model model){
+        SucursalDto sucursal = sucursalServices.getSucursalById(idSucursal);
+        List<SucursalDto> sucursalList = new ArrayList<>();
+        sucursalList.add(sucursal);
+        model.addAttribute("title", "Listado de Sucursales");
+        model.addAttribute("sucursales", sucursalList);
+        return "views/sucursal/list";
     }
 
-    @GetMapping(path = "/add")
-    public String createSucursal(Model model){
-        SucursalDto sucursalDto = new SucursalDto();
-        List<Country> countryList = countryServices.countryList();
-        model.addAttribute("title", "Formulario de Sucursal");
-        model.addAttribute("sucursal",sucursalDto);
-        model.addAttribute("countries",countryList);
-        return "/views/sucursal/frmCreate";
-    }
-
-    @PostMapping("/save")
-    public String save(@Valid @ModelAttribute SucursalDto sucursalDto, BindingResult result, Model model){
-        List<Country> countryList = countryServices.countryList();
-        if(result.hasErrors()){
+        @GetMapping(path = "/add")
+        public String createSucursal(Model model){
+            SucursalDto sucursalDto = new SucursalDto();
+            List<Country> countryList = countryServices.countryList();
             model.addAttribute("title", "Formulario de Sucursal");
             model.addAttribute("sucursal",sucursalDto);
             model.addAttribute("countries",countryList);
-            System.out.println("Errors in Form!");
             return "/views/sucursal/frmCreate";
         }
-        sucursalServices.createSucursal(sucursalDto);
-        System.out.println("Sucursal saved!");
-        return "redirect:/views/sucursal/getAll";
-    }
 
-    @GetMapping(path = "/update/{id}")
-    public String updateSucursal(@PathVariable("id") Long idSucursal, Model model){
-        SucursalDto updatedSucursal = sucursalServices.getSucursalById(idSucursal);
-        List<Country> countryList = countryServices.countryList();
-        model.addAttribute("title", "Actualizar Sucursal");
-        model.addAttribute("sucursal",updatedSucursal);
-        model.addAttribute("countries",countryList);
-        return "/views/sucursal/frmCreate";
+        @PostMapping("/save")
+        public String save(@Valid @ModelAttribute SucursalDto sucursalDto, BindingResult result, Model model){
+            List<Country> countryList = countryServices.countryList();
+            if(result.hasErrors()){
+                model.addAttribute("title", "Formulario de Sucursal");
+                model.addAttribute("sucursal",sucursalDto);
+                model.addAttribute("countries",countryList);
+                System.out.println("Errors in Form!");
+                return "/views/sucursal/frmCreate";
+            }
+            sucursalServices.createSucursal(sucursalDto);
+            System.out.println("Sucursal saved!");
+            return "redirect:/views/sucursal/getAll";
+        }
+
+        @GetMapping(path = "/update/{id}")
+        public String updateSucursal(@PathVariable("id") Long idSucursal, Model model){
+            SucursalDto updatedSucursal = sucursalServices.getSucursalById(idSucursal);
+            List<Country> countryList = countryServices.countryList();
+            model.addAttribute("title", "Actualizar Sucursal");
+            model.addAttribute("sucursal",updatedSucursal);
+            model.addAttribute("countries",countryList);
+            return "/views/sucursal/frmCreate";
+        }
+        @GetMapping(path = "/delete/{id}")
+        public String deleteSucursal(@PathVariable("id") Long idSucursal){
+            sucursalServices.deleteSucursalById(idSucursal);
+            System.out.println("Sucursal deleted!");
+            return "redirect:/views/sucursal/getAll";
+        }
     }
-    @GetMapping(path = "/delete/{id}")
-    public String deleteSucursal(@PathVariable("id") Long idSucursal){
-        sucursalServices.deleteSucursalById(idSucursal);
-        System.out.println("Sucursal deleted!");
-        return "redirect:/views/sucursal/getAll";
-    }
-}

@@ -21,6 +21,7 @@
       <th scope="col">Tipo</th>
       <th scope="col">Editar</th>
       <th scope="col">Eliminar</th>
+      <th scope="col">Mostrar</th>
     </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -38,6 +39,11 @@
         <a class="btn btn-danger btn-sm" th:href="@{/views/sucursal/delete/{id}(id=${sc.pk_SucursalID})}"
            th:text="'Eliminar'" title="Eliminar Registro"
            onclick="return confirm('¿Está seguro de eliminar el registro?')">
+        </a>
+      </td>
+      <td>
+        <a class="btn btn-secondary btn-sm" th:href="@{/views/sucursal/getOne/{id}(id=${sc.pk_SucursalID})}"
+           th:text="'Mostrar'" title="Mostrar Registro">
         </a>
       </td>
     </tr>

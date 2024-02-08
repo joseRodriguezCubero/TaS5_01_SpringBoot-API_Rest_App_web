@@ -3,7 +3,7 @@ package cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.dto;
 import cat.itacademy.barcelonactiva.rodriguez.jose.s05.t01.n01.model.entity.Country;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,6 @@ import java.util.List;
 
 @Setter
 @Getter
-
 public class SucursalDto implements Serializable {
 
     private Long pk_SucursalID;

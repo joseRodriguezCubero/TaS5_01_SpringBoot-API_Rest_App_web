@@ -66,8 +66,6 @@ public class Sucursal implements Serializable {
         this.country=paisSucursal;
     }
 
-
-
     @Override
     public String toString() {
         return "Sucursal{" +
